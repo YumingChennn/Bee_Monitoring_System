@@ -1,0 +1,11 @@
+# MongoDB Configuration
+limit: 1
+mongodb_uri: 'mongodb://localhost:27017/'
+db_name: 'audio_db'
+collection_name: 'caudio_db'
+
+# Audio Chunking Parameters
+chunk_size: 5
+hop_size: 5
+
+knn_model_path: 'C:\\Users\\Ken\\Desktop\\yumingWP\\ToBeeOrNotTobee\\model\\knn_model.pkl'  # Corrected KNN model path

@@ -1,0 +1,34 @@
+[build-system]
+requires = [ "setuptools",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audio_classification"
+readme = "README.md"
+dynamic = [ "dependencies", "version",]
+
+[project.scripts]
+audio-classification = "audio_classification.__main__:main"
+
+[tool.kedro]
+package_name = "audio_classification"
+project_name = "audio_classification"
+kedro_init_version = "0.19.7"
+tools = [ "None",]
+example_pipeline = "False"
+source_dir = "src"
+
+[project.entry-points."kedro.hooks"]
+
+[tool.setuptools.dynamic.dependencies]
+file = "requirements.txt"
+
+[tool.setuptools.dynamic.version]
+attr = "audio_classification.__version__"
+
+[tool.setuptools.packages.find]
+where = [ "src",]
+namespaces = false
+
+[tool.kedro_telemetry]
+project_id = "08a0be0d3c9e416f993e8c6466882012"
