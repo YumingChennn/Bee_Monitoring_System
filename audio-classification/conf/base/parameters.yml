@@ -1,5 +1,5 @@
 # MongoDB Configuration
-limit: 1
+limit: 15
 mongodb_uri: 'mongodb://localhost:27017/'
 db_name: 'audio_db'
 collection_name: 'caudio_db'

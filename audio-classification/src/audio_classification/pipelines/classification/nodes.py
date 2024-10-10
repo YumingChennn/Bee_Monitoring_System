@@ -8,7 +8,6 @@ import numpy as np
 import librosa
 import soundfile as sf
 from scipy import stats
-from sklearn.metrics import accuracy_score
 
 # Step 1: Fetch audio files from MongoDB
 def fetch_audio_files_from_mongodb(limit, mongodb_uri, db_name, collection_name):
@@ -28,6 +27,9 @@ def fetch_audio_files_from_mongodb(limit, mongodb_uri, db_name, collection_name)
         y, sr = sf.read(audio_bytes)
         audio_files.append((y, sr))
         audio_ids.append(audio_id)
+
+    print(f"Total audio files fetched: {len(audio_files)}")
+
     if not audio_files:
         raise ValueError("fetch_audio_files_from_mongodb error No audio files provided to split into chunks.")
     return audio_files, audio_ids
@@ -76,12 +78,11 @@ def predict_audio_files(audio_chunks, sample_rate, knn_model):
         knn_pred = knn_model.predict(mfcc_features.reshape(mfcc_features.shape[0], -1))
         all_knn_preds.append(knn_pred)
 
-    # Calculate final prediction
+    # Calculate the final prediction using mode
     final_knn_pred = stats.mode(all_knn_preds, axis=0)[0][0]
-
-    return {
-        'knn_prediction': final_knn_pred
-    }
+    
+    print(f'Final KNN Prediction: {final_knn_pred}')
+    return final_knn_pred
 
 # Function to predict all audio files
 def predict_all_audio_files(audio_files, audio_chunks, sample_rate, knn_model):
@@ -102,10 +103,7 @@ def save_predictions_to_mongodb( mongodb_uri, db_name, collection_name, audio_id
     
     for audio_id, prediction in zip(audio_ids, predictions):
         # Convert numpy int64 to Python int
-        # Extract the KNN prediction from the dictionary
-        knn_prediction = prediction['knn_prediction']
-        # Convert numpy int64 to Python int (if necessary)
-        prediction_value = int(knn_prediction)  # Ensure it's a native Python int
+        prediction_value = int(prediction)  # Ensure it's a native Python int
         # Update the document with the new prediction
         audio_collection.update_one(
             {'audio_file_id': audio_id},  # Filter to find the document
