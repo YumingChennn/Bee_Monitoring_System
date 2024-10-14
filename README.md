@@ -9,7 +9,7 @@
     
 2. 開啟 mongodb sever
     
-    ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/da3d35b3-8639-4f83-8fe5-0f8bfaa2c8ee/9146a59c-05ee-4a0a-a1ca-b0af8817c1e5/image.png)
+    
     
 3. 安裝依賴包、建立mongodb資料庫
     
